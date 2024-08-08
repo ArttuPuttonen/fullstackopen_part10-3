@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { View, Button, TextInput, StyleSheet, Text as NativeText } from 'react-native';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-native';
 import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
@@ -34,6 +35,7 @@ const validationSchema = Yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const navigate = useNavigate();
 
   const initialValues = {
     username: '',
@@ -46,6 +48,7 @@ const SignIn = () => {
     try {
       const { authenticate } = await signIn({ username, password });
       console.log('Sign in successful:', authenticate.accessToken);
+      navigate('/'); // Redirect to the repositories list view
     } catch (e) {
       console.log('Sign in error:', e);
     }
